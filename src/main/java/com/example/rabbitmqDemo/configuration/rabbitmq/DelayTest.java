@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 
-@Component
+//@Component
 @RabbitListener(bindings= @QueueBinding(value = @Queue(value = "MQConstants.DELAY_QUEUE", durable = "true"),
         exchange = @Exchange(value = "MQConstants.DELAY_EXCHANGE",type= ExchangeTypes.DIRECT,
                 arguments=@Argument(name="x-delayed-type",value="direct"),delayed=Exchange.TRUE),
