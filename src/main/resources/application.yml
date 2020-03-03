@@ -1,0 +1,71 @@
+server:
+  port: 8080
+spring:
+  # jpa
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect  #不加这句则默认为myisam引擎
+
+  # datasource
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/idea_test?serverTimezone=UTC&useSSL=false
+    username: root
+    password: 123456
+    driverClassName: com.mysql.cj.jdbc.Driver
+
+  # rabbitmq相关配置
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      simple:
+        retry:
+          enabled: true
+          max-attempts: 5
+
+#交换器和队列名称等信息
+mq:
+  #direct交换器
+  direct:
+    config:
+      exchange: log.direct
+      queue:
+        info:
+          name: log.info
+          routing:
+            key: log.info.routing.key
+        error:
+          name: log.error
+          routing:
+            key: log.error.routing.key
+#topic交换器
+  topic:
+    config:
+      exchange: log.topic
+      queue:
+        info:
+          name: topic.log.info
+        error:
+          name: topic.log.error
+        log:
+          name: topic.log.all
+#fanout交换器
+  fanout:
+    config:
+      exchange: order.fanout
+      queue:
+        sms:
+          name: order.sms
+        push:
+          name: order.push
+
+
+logging:
+  config: classpath:logback.xml
